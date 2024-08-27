@@ -10,5 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "nodejs_express_mongo": "file:"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
   }
 }
