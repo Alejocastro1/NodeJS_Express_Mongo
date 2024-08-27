@@ -1,0 +1,14 @@
+{
+  "name": "nodejs_express_mongo",
+  "version": "1.0.0",
+  "description": "laboratorio API REST con MongoDB",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alejandro Castro Torres",
+  "license": "ISC",
+  "dependencies": {
+    "nodejs_express_mongo": "file:"
+  }
+}
