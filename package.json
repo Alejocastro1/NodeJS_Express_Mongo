@@ -9,6 +9,7 @@
   "author": "Alejandro Castro Torres",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.19.2",
     "nodejs_express_mongo": "file:"
   },
   "devDependencies": {
