@@ -9,7 +9,9 @@
   "author": "Alejandro Castro Torres",
   "license": "ISC",
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
     "express": "^4.19.2",
+    "mongoose": "^8.5.4",
     "nodejs_express_mongo": "file:"
   },
   "devDependencies": {
