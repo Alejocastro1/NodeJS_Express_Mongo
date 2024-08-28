@@ -1,14 +1,27 @@
-const http = require('http');
+const usuarios = require('./controllers/usuarios');
+const cursos = require ('./controllers/cursos');
 
-const hostname='localhost';
-const port = 3000;
+const express   = require('express');
+const mongoose = require('mongoose');
 
-const server = http.createServer((req, res) => {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/plain');
-    res.end('Hello, World!\n');
-});
+//Conexion a la base de datos de mongoDB 
+mongoose.connect('mongodb://localhost:27017/usercoursesdb',{useNewUrlParser: true, useUnifiedTopology:true})
+   .then(() => console.log('Conectado a MongoDb'))
+   .catch(err => console.log('No se pudo conectar con MongoDB..', err));
 
-server.listen(port, hostname, () => {
-    console.log(`Server running at http://${hostname}:${port}/`);
-});
+   
+//middleware
+const app =express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
+//end points (recursos)
+app.use('/api/usuarios',usuarios);
+app.use('/api/cursos',cursos);
+
+   const port=process.env.PORT || 3000;
+   app.listen(port,()=>{
+     console.log('Api REST Port ok,y ejecutandose...');
+
+   })
