@@ -18,7 +18,7 @@ const  cursoShema = new mongoose.Schema({
         required: false
     },
     alumnos: {
-        type:Number,
+        type: Number,
         default: 0
     },
     calificacion: {
