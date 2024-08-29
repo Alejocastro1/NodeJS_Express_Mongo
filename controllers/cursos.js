@@ -2,10 +2,14 @@ const express = require('express');
 const Curso = require('../models/curso_model');
 const ruta = express.Router();
 
-
-
-ruta.get('/',(req,res)=>{
-    res.json('RRespuesta a peticion GET de CURSOS funcionando correctamente...');
+//refactorizacion endpoint de tipo GET para el recurso cursos:
+ruta.get('/',(req, res) => {
+    let resultado = listarCursosActivos();
+    resultado.then(cursos => {
+        res.json(cursos);
+    }).catch(err => {
+        res.status(400).json(err);
+    })
 });
 
 
@@ -86,3 +90,10 @@ ruta.put('/:id', (req, res) => {
         res.json(curso);
     });
 });
+//Funcion asincronica para listar los cursos activos
+async function listarCursosActivos(){
+    let cursos = await Curso.find({"estado": true});
+    return cursos;
+}
+
+
