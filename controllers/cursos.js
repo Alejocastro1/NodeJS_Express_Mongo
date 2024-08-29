@@ -10,7 +10,7 @@ ruta.get('/',(req,res)=>{
 
 
 module.exports = ruta;
-//Funcion asincronica para crear curssos
+//Funcion asincronica para crear cursos
 async function crearCurso(body){
     let curso = new Curso({
         titulo        : body.titulo,
@@ -35,3 +35,26 @@ ruta.post('/',  (req, res) => {
         })
     })
 });   
+
+//funcion asincronica para actualizar cursos
+
+async function actualizarCurso(id, body){
+    let curso= await Curso.findByIdAndUpdate(id, {
+        $set: {
+            titulo: body.titulo,
+            descripcion: body.descripcion,
+          
+        }
+    }, {new: true});
+    return curso;
+}
+
+//endpoint de tipo PUT para el recurso de CURSOS
+ruta.put('/:id', (req, res) => {
+    let resultado = actualizarCurso(req.params.id, req.body);
+    resultado.then(curso => {
+        res.json(curso)
+    }).catch(err => {
+        res.status(400).json(err)
+    })
+ })
