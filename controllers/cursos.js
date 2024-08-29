@@ -58,3 +58,31 @@ ruta.put('/:id', (req, res) => {
         res.status(400).json(err)
     })
  })
+
+ //funcion asincronica para eliminar cursos
+ async function desactivarCurso(id){
+    let curso = await Curso.findByIdAndUpdate(id, {
+        $set: {
+            estado: false
+        }
+    }, {new: true});
+    return curso;
+ }
+
+ //endpoint de tipo DELETE para el recurso de CURSOS
+ ruta.delete('/:id', (req, res) => {
+    let resultado = desactivarCurso(req.params.id);
+    resultado.then(curso => {
+        res.json(curso)
+    }).catch(err => {
+        res.status(400).json(err)
+    })
+ })
+ //endpoint de tipo GET para el recurso de CURSOS por ID
+ ruta.get('/:id', (req, res) => {
+    Curso.findById(req.params.id, (err, curso) => {
+        if(err) return res.status(500).send({message: "Error al realizar la peticion"});
+        if(!curso) return res.status(404).send({message: "Curso no encontrado"});
+        res.json(curso);
+    });
+});
