@@ -10,7 +10,7 @@ const usuarioSchema = new mongoose.Schema({
      type:String,
      required: true,
    },
-   pasword:{
+   password:{
     type:String,
     required: true,
    },
@@ -20,8 +20,8 @@ const usuarioSchema = new mongoose.Schema({
    }, 
    imagen:{
     type: String,
-    required: true,
-
-}});
+    required: false,
+   }
+});
 
 module.exports = mongoose.model('Usuario', usuarioSchema);
