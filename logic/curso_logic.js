@@ -1,48 +1,78 @@
 const Curso = require('../models/curso_model');
+const cursoSchema = require('../validaciones/cursos_validations');
 
-//Funcion asincronica para crear cursos
-async function crearCurso(body){
+// Función asíncrona para crear un curso
+async function crearCurso(body) {
+    // Validar los datos del curso
+    const { error, value } = cursoSchema.validate(body);
+    if (error) {
+        throw new Error(`Validación fallida: ${error.message}`);
+    }
+
+    // Verificar si el título del curso ya existe
+    const cursoExistente = await Curso.findOne({ titulo: body.titulo });
+    if (cursoExistente) {
+        throw new Error('El título del curso ya existe.');
+    }
+
     let curso = new Curso({
-        titulo        : body.titulo,
-        descripcion   : body.descripcion,
-        alumnos : body.alumnos,
-        calificacion : body.calificacion
-   });
-   return await curso.save();
+        titulo: body.titulo,
+        descripcion: body.descripcion,
+        alumnos: body.alumnos,
+        calificacion: body.calificacion
+    });
+
+    return await curso.save();
 }
 
-//funcion asincronica para actualizar cursos
+// Función asíncrona para actualizar un curso
+async function actualizarCurso(id, body) {
+    // Validar los datos del curso
+    const { error, value } = cursoSchema.validate(body);
+    if (error) {
+        throw new Error(`Validación fallida: ${error.message}`);
+    }
 
-async function actualizarCurso(id, body){
-    let curso= await Curso.findByIdAndUpdate(id, {
+    let curso = await Curso.findByIdAndUpdate(id, {
         $set: {
             titulo: body.titulo,
             descripcion: body.descripcion,
-          
+            alumnos: body.alumnos,
+            calificacion: body.calificacion
         }
-    }, {new: true});
+    }, { new: true });
+    
+    if (!curso) {
+        throw new Error('Curso no encontrado.');
+    }
+
     return curso;
 }
 
-//funcion asincronica para eliminar cursos
-async function desactivarCurso(id){
+// Función asíncrona para desactivar un curso
+async function desactivarCurso(id) {
     let curso = await Curso.findByIdAndUpdate(id, {
         $set: {
             estado: false
         }
-    }, {new: true});
-    return curso;
- }
+    }, { new: true });
 
- //Funcion asincronica para listar los cursos activos
-async function listarCursosActivos(){
-    let cursos = await Curso.find({"estado": true});
+    if (!curso) {
+        throw new Error('Curso no encontrado.');
+    }
+
+    return curso;
+}
+
+// Función asíncrona para listar los cursos activos
+async function listarCursosActivos() {
+    let cursos = await Curso.find({ estado: true });
     return cursos;
 }
 
-module.exports={
+module.exports = {
     crearCurso,
     actualizarCurso,
     desactivarCurso,
-    listarCursosActivos,
- };
+    listarCursosActivos
+};

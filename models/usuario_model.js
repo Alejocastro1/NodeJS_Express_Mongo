@@ -1,3 +1,4 @@
+const { required, boolean } = require('@hapi/joi');
 const mongoose = require('mongoose');
 
 const usuarioSchema = new mongoose.Schema({
